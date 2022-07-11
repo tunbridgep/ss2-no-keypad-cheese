@@ -1,0 +1,50 @@
+DML1
+
+FINGERPRINT
+{
+   1209 [-67.27 -126.62 2]
+   536 [-101.9 -168.81 0]
+   1144 [-56.57 -280.48 2]
+   218 [-109 -282.48 1.17]
+   224 [-9.01 -197.53 5.78]
+   1250 [53.51 -171.86 -2.05]
+   480 [74.08 -280.33 4.35]
+   726 [43.31 -268.7 -2]
+   478 [43.09 -274.22 -2]
+   727 [42.98 -281.24 -2]
+}
+
+//-------------------------------------------
+// Armoury - Code 98383 - Given by Sgt Bronson
+//-------------------------------------------
+
++ObjProp 1148 "Scripts"
+{
+	"Script 0" "sargeRandomKeypad"
+	"Script 1" ""
+	"Script 2" ""
+	"Script 3" ""
+	"Don't Inherit" false
+}
+
+Create -2498 "1148Link"
+{
+	+ObjProp "QBName" = "Note_4_1"	
+}
+
++Link "1148Link" 1148 "SwitchLink"
+{
+}
+
+//Make it hackable too
++ObjProp 1148 ReqTechDesc
+{
+    "Hack" 4 //was unhackable
+}
+
++ObjProp 1148 "HackDiff"
+{
+	"Success %" -40
+	"Critical Fail %" 40
+	"Cost" 3.00
+}
