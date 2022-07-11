@@ -1,0 +1,103 @@
+DML1
+
+FINGERPRINT
+{
+   156 [-14 82 -28]
+   158 [-14 72 -28]
+   878 [-14 62 -28]
+   155 [-14 52 -28]
+   876 [-5 52 -28]
+   877 [-5 62 -28]
+   1156 [-5 72 -28]
+   325 [4 52 -28]
+   879 [4 62 -28]
+   934 [4 72 -28]
+}
+
+//-------------------------------------------
+// Engineering Control - Code 15061 - Given by Sanger in Cargo Bays
+//-------------------------------------------
+
++ObjProp 1181 "Scripts"
+{
+	"Script 0" "sargeRandomKeypad"
+	"Script 1" ""
+	"Script 2" ""
+	"Script 3" ""
+	"Don't Inherit" false
+}
+
+Create -2498 "1181Link"
+{
+	+ObjProp "QBName" = "Note_1_8"
+}
+
++Link "1181Link" 1181 "SwitchLink"
+{
+}
+
+//-------------------------------------------
+// Auxillary Storage 5 - Code 34760 - Given by Marie Delacroix in Fluidics Control
+//-------------------------------------------
+
++ObjProp 1726 "Scripts"
+{
+	"Script 0" "sargeRandomKeypad"
+	"Script 1" ""
+	"Script 2" ""
+	"Script 3" ""
+	"Don't Inherit" false
+}
+
+Create -2498 "1726Link"
+{
+	+ObjProp "QBName" = "Note_1_9"
+}
+
++Link "1726Link" 1726 "SwitchLink"
+{
+}
+
+//-------------------------------------------
+// Utility Storage 4 - Code 59004 - Given by Shodan in Email
+//-------------------------------------------
+
++ObjProp 1372 "Scripts"
+{
+	"Script 0" "sargeRandomKeypad"
+	"Script 1" ""
+	"Script 2" ""
+	"Script 3" ""
+	"Don't Inherit" false
+}
+
+Create -2498 "1372Link"
+{
+	+ObjProp "QBName" = "Note_1_11"
+}
+
++Link "1372Link" 1372 "SwitchLink"
+{
+}
+
+//-------------------------------------------
+// Engine Core - Code 94834 - Given by Shodan in Email
+//-------------------------------------------
+
++ObjProp 910 "Scripts"
+{
+	"Script 0" "sargeRandomKeypad"
+	"Script 1" ""
+	"Script 2" ""
+	"Script 3" ""
+	"Don't Inherit" false
+}
+
+Create -2498 "910Link"
+{
+	+ObjProp "QBName" = "Note_1_12"
+}
+
++Link "910Link" 910 "SwitchLink"
+{
+}
