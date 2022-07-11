@@ -44,7 +44,7 @@ Create -2498 "1148Link"
 
 +ObjProp 1148 "HackDiff"
 {
-	"Success %" -40
-	"Critical Fail %" 40
+	"Success %" -50
+	"Critical Fail %" 10
 	"Cost" 3.00
 }

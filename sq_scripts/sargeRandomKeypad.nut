@@ -24,6 +24,18 @@ class sargeRandomKeypad extends SqRootScript
 		SetData("DontShowCode", message().code == GetProperty("KeypadCode"));
 	}
 	
+	function OnReset() {
+		ClearData("DontShowCode");
+	}
+
+	function OnNetOpened() {
+		SetData("DontShowCode", TRUE);
+	}
+
+	function OnHackSuccess() {
+		SetData("DontShowCode", TRUE);
+	}
+	
 	//If we know the code, tell us what it is
 	//This is similar to how modern games like Prey tell you the code when using a keypad
 	//once you have found it in the world
