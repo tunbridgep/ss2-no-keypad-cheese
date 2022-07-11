@@ -15,7 +15,7 @@ FINGERPRINT
 }
 
 //-------------------------------------------
-// Medsci Storage Closet (near start of game) - Never Given
+// Medsci Storage Closet - Code 00000 - Never Given
 //-------------------------------------------
 
 +ObjProp 222 "Scripts" //MedSci1 storage closet keypad
