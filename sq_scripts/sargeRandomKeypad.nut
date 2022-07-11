@@ -9,16 +9,20 @@ class sargeKeypadBase extends SqRootScript
 	
 	function OnBeginScript()
 	{
-		local code = GetProperty("KeypadCode");
-		SetData("OriginalCode",code);
+		if (GetData("Done"))
+			return;
+		
 		DisableKeycode();
+		
 	}
 	
 	function DisableKeycode()
 	{
 		local code = GetProperty("KeypadCode");
+		SetData("OriginalCode",code);
 		SetProperty("KeypadCode", code + 100000);
 		print ("Changed code for keypad to " + (code + 100000));
+		SetData("Done",TRUE);
 	}
 	
 	function Unlock()
@@ -29,7 +33,7 @@ class sargeKeypadBase extends SqRootScript
 		SetData("CodeKnown", TRUE);
 	}
 	
-		//Stop us from displaying the "Code: blahblah" messages when frobbing on opened keypads
+	//Stop us from displaying the "Code: blahblah" messages when frobbing on opened keypads
 	function OnKeypadDone()
 	{
 		SetData("DontShowCode", message().code == GetProperty("KeypadCode"));
@@ -37,6 +41,9 @@ class sargeKeypadBase extends SqRootScript
 	
 	function OnReset() {
 		ClearData("DontShowCode");
+		ClearData("CodeKnown");
+		ClearData("Done");
+		DisableKeycode();
 	}
 
 	function OnNetOpened() {
@@ -53,7 +60,6 @@ class sargeKeypadBase extends SqRootScript
 	function OnFrobWorldEnd()
 	{
 		local code = GetProperty("KeypadCode");
-		local original = GetData("OriginalCode")
 		
 		if (!GetData("CodeKnown") || GetData("DontShowCode"))
 			return;	
