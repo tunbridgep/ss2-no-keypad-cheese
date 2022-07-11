@@ -15,7 +15,7 @@ FINGERPRINT
 }
 
 //-------------------------------------------
-// Medsci Storage Closet (near start of game) - has no code
+// Medsci Storage Closet (near start of game) - Never Given
 //-------------------------------------------
 
 +ObjProp 222 "Scripts" //MedSci1 storage closet keypad
