@@ -14,11 +14,37 @@ FINGERPRINT
    365 [127.73 57.51 -2]
 }
 
-+ObjProp 222 "Scripts" //MedSci1 storage closet keypat
+//-------------------------------------------
+// Medsci Storage Closet (near start of game) - has no code
+//-------------------------------------------
+
++ObjProp 222 "Scripts" //MedSci1 storage closet keypad
 {
 	"Script 0" "sargeRandomKeypad"
 	"Script 1" ""
 	"Script 2" ""
 	"Script 3" ""
 	"Don't Inherit" false
+}
+
+//-------------------------------------------
+// Maintenance Shaft - Code 12451 - Given by Doctor Watts
+//-------------------------------------------
+
++ObjProp 809 "Scripts"
+{
+	"Script 0" "sargeRandomKeypad"
+	"Script 1" ""
+	"Script 2" ""
+	"Script 3" ""
+	"Don't Inherit" false
+}
+
+Create -2498 "809Link"
+{
+	+ObjProp "QBName" = "wattsy"	
+}
+
++Link "809Link" 809 "SwitchLink"
+{
 }
