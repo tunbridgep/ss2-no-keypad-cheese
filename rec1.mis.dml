@@ -26,15 +26,7 @@ FINGERPRINT
 	"Script 3" ""
 	"Don't Inherit" false
 }
-
-Create -2498 "1955Link"
-{
-	+ObjProp "QBName" = "Note_5_8"
-}
-
-+Link "1955Link" 1955 "SwitchLink"
-{
-}
++ObjProp 1955 "QBName" = "Note_5_8"
 
 //-------------------------------------------
 // Help Desk Safe - Code 12345 - Never Given
@@ -48,3 +40,18 @@ Create -2498 "1955Link"
 	"Script 3" ""
 	"Don't Inherit" false
 }
+
+
+//-------------------------------------------
+// Transmitter - Code 14106 - Found by searching art terminals
+//-------------------------------------------
+
++ObjProp 1605 "Scripts"
+{
+	"Script 0" "scpKeypadHelper"
+	"Script 1" "sargeTransmitterKeypad"
+	"Script 2" ""
+	"Script 3" ""
+	"Don't Inherit" false
+}
++ObjProp 1605 "DesignNoteSS" = "QB1Name="Note_5_12"; QB2Name="Note_5_13"; QB3Name="Note_5_10"; QB4Name="Note_5_11"; RequiredUpdates=4"

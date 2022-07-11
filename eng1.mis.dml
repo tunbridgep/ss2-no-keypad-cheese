@@ -26,15 +26,7 @@ FINGERPRINT
 	"Script 3" ""
 	"Don't Inherit" false
 }
-
-Create -2498 "1181Link"
-{
-	+ObjProp "QBName" = "Note_1_8"
-}
-
-+Link "1181Link" 1181 "SwitchLink"
-{
-}
++ObjProp 1181 "QBName" = "Note_1_8"
 
 //-------------------------------------------
 // Auxillary Storage 5 - Code 34760 - Given by Marie Delacroix in Fluidics Control
@@ -48,15 +40,7 @@ Create -2498 "1181Link"
 	"Script 3" ""
 	"Don't Inherit" false
 }
-
-Create -2498 "1726Link"
-{
-	+ObjProp "QBName" = "Note_1_9"
-}
-
-+Link "1726Link" 1726 "SwitchLink"
-{
-}
++ObjProp 1726 "QBName" = "Note_1_9"
 
 //-------------------------------------------
 // Utility Storage 4 - Code 59004 - Given by Shodan in Email
@@ -70,15 +54,7 @@ Create -2498 "1726Link"
 	"Script 3" ""
 	"Don't Inherit" false
 }
-
-Create -2498 "1372Link"
-{
-	+ObjProp "QBName" = "Note_1_11"
-}
-
-+Link "1372Link" 1372 "SwitchLink"
-{
-}
++ObjProp 1372 "QBName" = "Note_1_11"
 
 //-------------------------------------------
 // Engine Core - Code 94834 - Given by Shodan in Email
@@ -92,12 +68,4 @@ Create -2498 "1372Link"
 	"Script 3" ""
 	"Don't Inherit" false
 }
-
-Create -2498 "910Link"
-{
-	+ObjProp "QBName" = "Note_1_12"
-}
-
-+Link "910Link" 910 "SwitchLink"
-{
-}
++ObjProp 910 "QBName" = "Note_1_12"

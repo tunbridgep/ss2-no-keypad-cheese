@@ -1,16 +1,27 @@
-// ================================================================================
-// Sets a keypad to have a random code
-class sargeRandomKeypad extends SqRootScript
+class sargeKeypadBase extends SqRootScript
 {
-	function OnSim()
+	// fetch a parameter or return default value
+	// blatantly stolen from RSD
+	function getParam(key, defVal)
+	{
+		return key in userparams() ? userparams()[key] : defVal;
+	}
+	
+	function OnBeginScript()
 	{
 		local code = GetProperty("KeypadCode");
 		SetData("OriginalCode",code);
+		DisableKeycode();
+	}
+	
+	function DisableKeycode()
+	{
+		local code = GetProperty("KeypadCode");
 		SetProperty("KeypadCode", code + 100000);
 		print ("Changed code for keypad to " + (code + 100000));
 	}
 	
-	function OnTurnOn()
+	function Unlock()
 	{
 		local original = GetData("OriginalCode")
 		print ("Resetting code to " + original);
@@ -18,7 +29,7 @@ class sargeRandomKeypad extends SqRootScript
 		SetData("CodeKnown", TRUE);
 	}
 	
-	//Stop us from displaying the "Code: blahblah" messages when frobbing on opened keypads
+		//Stop us from displaying the "Code: blahblah" messages when frobbing on opened keypads
 	function OnKeypadDone()
 	{
 		SetData("DontShowCode", message().code == GetProperty("KeypadCode"));
@@ -49,4 +60,76 @@ class sargeRandomKeypad extends SqRootScript
 		
 		ShockGame.AddText("Code: " + code, null);
 	}
+}
+
+
+// ================================================================================
+// Sets a keypad to have a random code
+class sargeRandomKeypad extends sargeKeypadBase
+{
+	function OnBeginScript()
+	{
+		base.OnBeginScript();
+		if (HasProperty("QBName"))
+		{
+			Quest.SubscribeMsg(self, GetProperty("QBName"), eQuestDataType.kQuestDataCampaign);
+			OnQuestChange();
+		}
+	}
+	
+	function OnEndScript()
+	{
+		if (HasProperty("QBName"))
+			Quest.UnsubscribeMsg(self, GetProperty("QBName"));
+	}
+	
+	function OnQuestChange()
+	{
+		if (Quest.Get(GetProperty("QBName")) > 0)
+			Unlock();
+	}
+
+}
+
+class sargeTransmitterKeypad extends sargeKeypadBase
+{
+	function OnBeginScript()
+	{
+		base.OnBeginScript();
+		Subscribe("QB1Name");
+		Subscribe("QB2Name");
+		Subscribe("QB3Name");
+		Subscribe("QB4Name");
+		
+		local requiredQuestupdates = getParam("RequiredUpdates",0);
+		SetData("RequiredQuestUpdates",requiredQuestupdates);
+		print ("required quest updates:" + requiredQuestupdates);
+		
+		OnQuestChange();
+	}
+	
+	function Subscribe(parameter)
+	{
+		local param_value = getParam(parameter,0);
+		if (param_value)
+		{
+			print ("Subscribing to " + parameter + ": " + param_value);
+			Quest.SubscribeMsg(self, param_value, eQuestDataType.kQuestDataCampaign);
+		}
+	}
+	
+	function OnQuestChange()
+	{
+		local count = GetData("RequiredQuestUpdates") - 1;
+		
+		if (count <= 0)
+		{
+			Unlock();
+		}
+		else
+		{
+			SetData("RequiredQuestUpdates",count);
+		}
+		print ("remaining quest updates: " + (count));
+	}	
 }

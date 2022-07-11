@@ -1,0 +1,13 @@
+Notes:
+
+list_obj_type
+
+-76 for audio logs
+-1097 for email traps
+-258 for keypads
+-2936 for art code terminals
+use list_obj_name CodePicTrig to see all art terminal triggers
+
+rec1 transmitter is object 1605
+
+then use cam_to_brush to move to it

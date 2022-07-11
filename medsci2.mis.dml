@@ -26,15 +26,7 @@ FINGERPRINT
 	"Script 3" ""
 	"Don't Inherit" false
 }
-
-Create -2498 "1148Link"
-{
-	+ObjProp "QBName" = "Note_4_1"	
-}
-
-+Link "1148Link" 1148 "SwitchLink"
-{
-}
++ObjProp 1148 "QBName" = "Note_4_1"
 
 //Make it hackable too
 +ObjProp 1148 ReqTechDesc

@@ -40,12 +40,4 @@ FINGERPRINT
 	"Script 3" ""
 	"Don't Inherit" false
 }
-
-Create -2498 "122Link"
-{
-	+ObjProp "QBName" = "Note_5_6"
-}
-
-+Link "122Link" 122 "SwitchLink"
-{
-}
++ObjProp 122 "QBName" = "Note_5_6"
