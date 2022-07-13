@@ -9,11 +9,17 @@ class sargeKeypadBase extends SqRootScript
 	
 	function OnBeginScript()
 	{
-		if (GetData("Done"))
-			return;
-		
+		if (!GetData("Setup"))
+		{
+			Init();
+			SetData("Setup",TRUE);
+		}
+	}
+
+	//Run only once ever, not per map
+	function Init()
+	{
 		DisableKeycode();
-		
 	}
 	
 	function DisableKeycode()
@@ -21,8 +27,8 @@ class sargeKeypadBase extends SqRootScript
 		local code = GetProperty("KeypadCode");
 		SetData("OriginalCode",code);
 		SetProperty("KeypadCode", code + 100000);
+		SetData("ShowCode", FALSE);
 		print ("Changed code for keypad to " + (code + 100000));
-		SetData("Done",TRUE);
 	}
 	
 	function Unlock()
@@ -30,28 +36,25 @@ class sargeKeypadBase extends SqRootScript
 		local original = GetData("OriginalCode")
 		print ("Resetting code to " + original);
 		SetProperty("KeypadCode", original);
-		SetData("CodeKnown", TRUE);
+		SetData("ShowCode", TRUE);
 	}
 	
 	//Stop us from displaying the "Code: blahblah" messages when frobbing on opened keypads
 	function OnKeypadDone()
 	{
-		SetData("DontShowCode", message().code == GetProperty("KeypadCode"));
+		SetData("ShowCode", FALSE);
 	}
 	
 	function OnReset() {
-		ClearData("DontShowCode");
-		ClearData("CodeKnown");
-		ClearData("Done");
-		DisableKeycode();
+		ClearData("Setup");
 	}
 
 	function OnNetOpened() {
-		SetData("DontShowCode", TRUE);
+		SetData("ShowCode", FALSE);
 	}
 
 	function OnHackSuccess() {
-		SetData("DontShowCode", TRUE);
+		SetData("ShowCode", FALSE);
 	}
 	
 	//If we know the code, tell us what it is
@@ -61,7 +64,7 @@ class sargeKeypadBase extends SqRootScript
 	{
 		local code = GetProperty("KeypadCode");
 		
-		if (!GetData("CodeKnown") || GetData("DontShowCode"))
+		if (!GetData("ShowCode"))
 			return;	
 		
 		ShockGame.AddText("Code: " + code, null);
@@ -83,22 +86,32 @@ class sargeRandomKeypad extends sargeKeypadBase
 		}
 	}
 	
-	function OnEndScript()
-	{
-		if (HasProperty("QBName"))
-			Quest.UnsubscribeMsg(self, GetProperty("QBName"));
-	}
-	
 	function OnQuestChange()
 	{
 		if (Quest.Get(GetProperty("QBName")) > 0)
 			Unlock();
+	}
+	
+	function OnEndScript()
+	{
+		if (HasProperty("QBName"))
+		{
+			Quest.UnsubscribeMsg(self, GetProperty("QBName"));
+		}
 	}
 
 }
 
 class sargeTransmitterKeypad extends sargeKeypadBase
 {
+	function Init()
+	{
+		base.Init();
+		local requiredQuestupdates = getParam("RequiredUpdates",0);
+		SetData("RequiredQuestUpdates",requiredQuestupdates);
+		print ("required quest updates:" + requiredQuestupdates);
+	}
+	
 	function OnBeginScript()
 	{
 		base.OnBeginScript();
@@ -106,12 +119,15 @@ class sargeTransmitterKeypad extends sargeKeypadBase
 		Subscribe("QB2Name");
 		Subscribe("QB3Name");
 		Subscribe("QB4Name");
-		
-		local requiredQuestupdates = getParam("RequiredUpdates",0);
-		SetData("RequiredQuestUpdates",requiredQuestupdates);
-		print ("required quest updates:" + requiredQuestupdates);
-		
 		OnQuestChange();
+	}
+	
+	function OnEndScript()
+	{
+		Unsubscribe("QB1Name");
+		Unsubscribe("QB2Name");
+		Unsubscribe("QB3Name");
+		Unsubscribe("QB4Name");
 	}
 	
 	function Subscribe(parameter)
@@ -124,18 +140,35 @@ class sargeTransmitterKeypad extends sargeKeypadBase
 		}
 	}
 	
+	function Unsubscribe(parameter)
+	{
+		local param_value = getParam(parameter,0);
+		if (param_value)
+		{
+			print ("Unsubscribing from " + parameter + ": " + param_value);
+			Quest.UnsubscribeMsg(self, param_value);
+		}
+	}
+	
 	function OnQuestChange()
 	{
-		local count = GetData("RequiredQuestUpdates") - 1;
+	
+		local first = Quest.Get(getParam("QB1Name",0));
+		local second = Quest.Get(getParam("QB2Name",0));
+		local third = Quest.Get(getParam("QB3Name",0));
+		local fourth = Quest.Get(getParam("QB4Name",0));
+	
+		local count = first + second + third + fourth;
+		local required = GetData("RequiredQuestUpdates");
 		
-		if (count <= 0)
+		if (count >= required)
 		{
 			Unlock();
+			print ("Transmitter Unlocked");
 		}
 		else
 		{
-			SetData("RequiredQuestUpdates",count);
+			print ("remaining quest updates: " + (required - count));
 		}
-		print ("remaining quest updates: " + (count));
 	}	
 }
