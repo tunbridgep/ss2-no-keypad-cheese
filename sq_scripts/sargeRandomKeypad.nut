@@ -1,3 +1,5 @@
+// ================================================================================
+// Base class for handling keypad functionality
 class sargeKeypadBase extends SqRootScript
 {
 	// fetch a parameter or return default value
@@ -16,7 +18,7 @@ class sargeKeypadBase extends SqRootScript
 		}
 	}
 
-	//Run only once ever, not per map
+	//Run only once ever per map, not on reload or reenter
 	function Init()
 	{
 		DisableKeycode();
@@ -45,10 +47,6 @@ class sargeKeypadBase extends SqRootScript
 		SetData("ShowCode", FALSE);
 	}
 	
-	function OnReset() {
-		ClearData("Setup");
-	}
-
 	function OnNetOpened() {
 		SetData("ShowCode", FALSE);
 	}
@@ -57,23 +55,27 @@ class sargeKeypadBase extends SqRootScript
 		SetData("ShowCode", FALSE);
 	}
 	
+	function OnReset() {
+		Init();
+		OnQuestChange();
+	}
+	
 	//If we know the code, tell us what it is
 	//This is similar to how modern games like Prey tell you the code when using a keypad
 	//once you have found it in the world
 	function OnFrobWorldEnd()
 	{
-		local code = GetProperty("KeypadCode");
-		
 		if (!GetData("ShowCode"))
 			return;	
-		
+	
+		local code = GetProperty("KeypadCode");
 		ShockGame.AddText("Code: " + code, null);
 	}
 }
 
 
 // ================================================================================
-// Sets a keypad to have a random code
+// Setup keypads to be unopenable until the right quest var is set
 class sargeRandomKeypad extends sargeKeypadBase
 {
 	function OnBeginScript()
@@ -102,6 +104,8 @@ class sargeRandomKeypad extends sargeKeypadBase
 
 }
 
+// ================================================================================
+// Setup transmitter in rec1 to be unusable until the right quest vars are set
 class sargeTransmitterKeypad extends sargeKeypadBase
 {
 	function Init()
