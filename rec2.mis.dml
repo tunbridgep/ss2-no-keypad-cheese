@@ -14,6 +14,16 @@ FINGERPRINT
    761 [-85.0766 -52.0627 -19.5113]
 }
 
+//load for SCP
+FINGERPRINT
+{
+   QVAR "scplevel" == 1
+}
+//load for Secmod
+FINGERPRINT
+{
+   QVAR "secmod" == 1
+}
 
 //-------------------------------------------
 // Broken Security Keypad - Code 50220 - Never Given

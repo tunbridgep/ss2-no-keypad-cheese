@@ -14,6 +14,17 @@ FINGERPRINT
    934 [4 72 -28]
 }
 
+//load for SCP
+FINGERPRINT
+{
+   QVAR "scplevel" == 1
+}
+//load for Secmod
+FINGERPRINT
+{
+   QVAR "secmod" == 1
+}
+
 //-------------------------------------------
 // Engineering Control - Code 15061 - Given by Sanger in Cargo Bays
 //-------------------------------------------

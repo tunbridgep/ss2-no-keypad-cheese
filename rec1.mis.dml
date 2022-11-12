@@ -14,6 +14,17 @@ FINGERPRINT
    158 [26.4369 -532.171 4.91395]
 }
 
+//load for SCP
+FINGERPRINT
+{
+   QVAR "scplevel" == 1
+}
+//load for Secmod
+FINGERPRINT
+{
+   QVAR "secmod" == 1
+}
+
 //-------------------------------------------
 // Crew Quarters Apartment - Code 11111 - Given by Rosenberg in the Sensual Sim Center
 //-------------------------------------------

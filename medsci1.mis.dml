@@ -14,6 +14,17 @@ FINGERPRINT
    365 [127.73 57.51 -2]
 }
 
+//load for SCP
+FINGERPRINT
+{
+   QVAR "scplevel" == 1
+}
+//load for Secmod
+FINGERPRINT
+{
+   QVAR "secmod" == 1
+}
+
 //-------------------------------------------
 // Medsci Storage Closet - Code 00000 - Never Given
 //-------------------------------------------
