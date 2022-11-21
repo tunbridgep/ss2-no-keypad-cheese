@@ -1,0 +1,12 @@
+//Make the Armoury hackable
++ObjProp 1148 ReqTechDesc
+{
+    "Hack" 4 //was unhackable
+}
+
++ObjProp 1148 "HackDiff"
+{
+	"Success %" -50
+	"Critical Fail %" 10
+	"Cost" 3.00
+}

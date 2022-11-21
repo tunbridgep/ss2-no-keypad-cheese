@@ -1,0 +1,13 @@
+//-------------------------------------------
+// Armoury - Code 13433 - Given by Bronson in Ops3
+//-------------------------------------------
+
++ObjProp 333 "Scripts"
+{
+	"Script 0" "sargeRandomKeypad"
+	"Script 1" ""
+	"Script 2" ""
+	"Script 3" ""
+	"Don't Inherit" false
+}
++ObjProp 333 "QBName" = "Note_4_6"
