@@ -2,54 +2,47 @@
 // Engineering Control - Code 15061 - Given by Sanger in Cargo Bays
 //-------------------------------------------
 
+//Has No Inherit set, so we need to set this manually
+//TODO: Remove this when SCP5 releases
 +ObjProp 1181 "Scripts"
 {
-	"Script 0" "sargeRandomKeypad"
-	"Script 1" ""
-	"Script 2" ""
-	"Script 3" ""
-	"Don't Inherit" false
+	"Script 3" "sargeRandomKeypad"
+	"Don't Inherit" true
 }
+
 +ObjProp 1181 "QBName" = "Note_1_8"
 
 //-------------------------------------------
 // Auxillary Storage 5 - Code 34760 - Given by Marie Delacroix in Fluidics Control
 //-------------------------------------------
 
+//Has No Inherit set, so we need to set this manually
+//TODO: Remove this when SCP5 releases
 +ObjProp 1726 "Scripts"
 {
-	"Script 0" "sargeRandomKeypad"
-	"Script 1" ""
-	"Script 2" ""
-	"Script 3" ""
-	"Don't Inherit" false
+	"Script 3" "sargeRandomKeypad"
+	"Don't Inherit" true
 }
+
 +ObjProp 1726 "QBName" = "Note_1_9"
 
 //-------------------------------------------
 // Utility Storage 4 - Code 59004 - Given by Shodan in Email
 //-------------------------------------------
 
-+ObjProp 1372 "Scripts"
-{
-	"Script 0" "sargeRandomKeypad"
-	"Script 1" ""
-	"Script 2" ""
-	"Script 3" ""
-	"Don't Inherit" false
-}
 +ObjProp 1372 "QBName" = "Note_1_11"
 
 //-------------------------------------------
 // Engine Core - Code 94834 - Given by Shodan in Email
 //-------------------------------------------
 
+//Has No Inherit set, so we need to set this manually
+//TODO: Remove this when SCP5 releases
 +ObjProp 910 "Scripts"
 {
-	"Script 0" "sargeRandomKeypad"
-	"Script 1" ""
-	"Script 2" ""
-	"Script 3" ""
-	"Don't Inherit" false
+	"Script 3" "sargeRandomKeypad"
+	"Don't Inherit" true
 }
+
+
 +ObjProp 910 "QBName" = "Note_1_12"

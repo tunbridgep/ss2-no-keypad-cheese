@@ -1,0 +1,18 @@
+//Attach Keypad Script to all keypads
+//They have don't inherit set, so we need to add it to the archetype manually.
+//TODO: This will be fixed with SCP5, so update this mod to use a proper metaproperty here instead
++ObjProp -258 "Scripts"
+{
+    "Script 2" "sargeRandomKeypad"
+}
+
+/*
+CreateArch "Misc Metaprops" "No Keypad Cheese Script Adder"
+{
+	+ObjProp "Scripts"
+	{
+	    "Script 0" "sargeRandomKeypad"
+		"Don't inherit" false
+	}
+}
+*/

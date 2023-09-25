@@ -7,4 +7,3 @@
 call build/makedml.cmd -f "%~dp0\src" "%~dp0\out" "vanilla" "scp" "secmod"
 @del "No Keypad Cheese.7z"
 7z a "No Keypad Cheese.7z" "%~dp0\out\*"
-pause

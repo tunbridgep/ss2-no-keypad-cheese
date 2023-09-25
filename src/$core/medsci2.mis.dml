@@ -2,12 +2,12 @@
 // Armoury - Code 98383 - Given by Sgt Bronson
 //-------------------------------------------
 
+//Has No Inherit set, so we need to set this manually
+//TODO: Remove this when SCP5 releases
 +ObjProp 1148 "Scripts"
 {
-	"Script 0" "sargeRandomKeypad"
-	"Script 1" ""
-	"Script 2" ""
-	"Script 3" ""
-	"Don't Inherit" false
+	"Script 3" "sargeRandomKeypad"
+	"Don't Inherit" true
 }
+
 +ObjProp 1148 "QBName" = "Note_2_8"

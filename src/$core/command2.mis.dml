@@ -2,12 +2,4 @@
 // Security Room - Code 83273 - Given by Myers
 //-------------------------------------------
 
-+ObjProp 1609 "Scripts"
-{
-	"Script 0" "sargeRandomKeypad"
-	"Script 1" ""
-	"Script 2" ""
-	"Script 3" ""
-	"Don't Inherit" false
-}
 +ObjProp 1609 "QBName" = "Note_6_11"

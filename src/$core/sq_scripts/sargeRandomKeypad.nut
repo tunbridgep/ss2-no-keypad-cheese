@@ -30,29 +30,46 @@ class sargeKeypadBase extends SqRootScript
 		SetData("OriginalCode",code);
 		SetProperty("KeypadCode", code + 100000);
 		SetData("ShowCode", FALSE);
+		SetData("Locked", TRUE);
 		print ("Changed code for keypad to " + (code + 100000));
 	}
 	
 	function Unlock()
 	{
-		local original = GetData("OriginalCode")
-		print ("Resetting code to " + original);
-		SetProperty("KeypadCode", original);
-		SetData("ShowCode", TRUE);
+		if (!GetData("Locked"))
+			return;	
+		
+        local original = GetData("OriginalCode")
+        print ("Resetting code to " + original);
+        SetProperty("KeypadCode", original);
+        SetData("ShowCode", TRUE);
+        UpdateHUDString(original);
 	}
+
+    function UpdateHUDString(original)
+    {
+        local useString = Data.GetObjString(self, "huduse");
+		local period = useString.find(".");
+		useString = useString.slice(0, period);
+
+        SetProperty("HUDUse", ": \"" + useString + ": " + format("%05d", original) + "\"");
+    }
 	
 	//Stop us from displaying the "Code: blahblah" messages when frobbing on opened keypads
 	function OnKeypadDone()
 	{
 		SetData("ShowCode", FALSE);
+		SetData("Locked", FALSE);
 	}
 	
 	function OnNetOpened() {
 		SetData("ShowCode", FALSE);
+		SetData("Locked", FALSE);
 	}
 
 	function OnHackSuccess() {
 		SetData("ShowCode", FALSE);
+		SetData("Locked", FALSE);
 	}
 	
 	function OnReset() {
@@ -63,6 +80,7 @@ class sargeKeypadBase extends SqRootScript
 	//If we know the code, tell us what it is
 	//This is similar to how modern games like Prey tell you the code when using a keypad
 	//once you have found it in the world
+    /*
 	function OnFrobWorldEnd()
 	{
 		if (!GetData("ShowCode"))
@@ -71,6 +89,7 @@ class sargeKeypadBase extends SqRootScript
 		local code = GetProperty("KeypadCode");
 		ShockGame.AddText("Code: " + code, null);
 	}
+    */
 }
 
 
@@ -86,6 +105,33 @@ class sargeRandomKeypad extends sargeKeypadBase
 			Quest.SubscribeMsg(self, GetProperty("QBName"), eQuestDataType.kQuestDataCampaign);
 			OnQuestChange();
 		}
+		else
+		{
+			local qb = GetQB();
+			if (qb)
+			{
+				Property.SetSimple(this,"QBName",qb);
+			}
+		}
+	}
+
+	//blatantly stolen from ZylonBane
+	function getQB()
+	{
+		local deck, note, qb;
+		local code = format("%05d", GetProperty("KeypadCode"));
+		for (deck = 1; deck <= 9; deck++)
+		{
+			for (n = 1; note <= 32; n++)
+			{
+				qb = "Note_" + deck + "_" + note;
+				if (Data.GetString("notes", qb).find(code))
+				{
+					return qb;
+				}
+			}
+		}
+		return false;
 	}
 	
 	function OnQuestChange()

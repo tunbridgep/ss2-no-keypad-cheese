@@ -1,26 +1,5 @@
 //-------------------------------------------
-// Broken Security Keypad - Code 50220 - Never Given
-//-------------------------------------------
-
-+ObjProp 624 "Scripts"
-{
-	"Script 0" "sargeRandomKeypad"
-	"Script 1" ""
-	"Script 2" ""
-	"Script 3" ""
-	"Don't Inherit" false
-}
-
-//-------------------------------------------
 // Under Gardens - Code 34093 - Given by Enrique Cortez
 //-------------------------------------------
 
-+ObjProp 122 "Scripts"
-{
-	"Script 0" "sargeRandomKeypad"
-	"Script 1" ""
-	"Script 2" ""
-	"Script 3" ""
-	"Don't Inherit" false
-}
 +ObjProp 122 "QBName" = "Note_5_6"

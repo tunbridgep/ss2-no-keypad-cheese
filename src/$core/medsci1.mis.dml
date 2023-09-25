@@ -1,27 +1,5 @@
 //-------------------------------------------
-// Medsci Storage Closet - Code 00000 - Never Given
-//-------------------------------------------
-
-+ObjProp 222 "Scripts" //MedSci1 storage closet keypad
-{
-	"Script 0" "sargeRandomKeypad"
-	"Script 1" ""
-	"Script 2" ""
-	"Script 3" ""
-	"Don't Inherit" false
-}
-
-//-------------------------------------------
 // Maintenance Shaft - Code 12451 - Given by Doctor Watts
 //-------------------------------------------
 
-+ObjProp 809 "Scripts"
-{
-	"Script 0" "sargeRandomKeypad"
-	"Script 1" ""
-	"Script 2" ""
-	"Script 3" ""
-	"Don't Inherit" false
-		
-}
 +ObjProp 809 "QBName" = "wattsy"
