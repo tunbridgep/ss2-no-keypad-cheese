@@ -2,6 +2,23 @@
 // Base class for handling keypad functionality
 class sargeKeypadBase extends SqRootScript
 {
+    static function GetObjectName(obj)
+    {
+        local name = Object.GetName(obj);
+        if (name == "")
+            name = ShockGame.GetArchetypeName(obj);
+        return name;
+    }
+
+	static function PrintDebug(msg)
+	{
+        if (getParam("debug",0))
+        {
+    		print ("[" + self + "] " + GetObjectName(self) + "> " + msg);
+		    ShockGame.AddText("[" + self + "] " + GetObjectName(self) + "> " + msg, null);
+        }
+	}
+
 	// fetch a parameter or return default value
 	// blatantly stolen from RSD
 	function getParam(key, defVal)
@@ -11,36 +28,57 @@ class sargeKeypadBase extends SqRootScript
 	
 	function OnBeginScript()
 	{
+
 		if (!GetData("Setup"))
 		{
 			Init();
 			SetData("Setup",TRUE);
 		}
+		MapLoaded();
+	}
+
+	//override this
+	function MapLoaded()
+	{
 	}
 
 	//Run only once ever per map, not on reload or reenter
 	function Init()
 	{
-		DisableKeycode();
+        //don't change codes if we're told not to
+        if (getParam("noChangeCode",0))
+        {
+		    local code = GetProperty("KeypadCode");
+		    SetData("ShowCode", TRUE);
+            UpdateHUDString(code);
+            PrintDebug("noChangeCode - Aborting!");
+        }
+        else
+        {
+    		DisableKeycode();
+        }
 	}
 	
 	function DisableKeycode()
 	{
 		local code = GetProperty("KeypadCode");
+
 		SetData("OriginalCode",code);
 		SetProperty("KeypadCode", code + 100000);
 		SetData("ShowCode", FALSE);
 		SetData("Locked", TRUE);
-		print ("Changed code for keypad to " + (code + 100000));
+		PrintDebug("Changed code for keypad to " + (code + 100000));
 	}
 	
 	function Unlock()
 	{
 		if (!GetData("Locked"))
 			return;	
+			
+        PrintDebug("Unlocking...");
 		
         local original = GetData("OriginalCode")
-        print ("Resetting code to " + original);
+        PrintDebug("Resetting code to " + original);
         SetProperty("KeypadCode", original);
         SetData("ShowCode", TRUE);
         UpdateHUDString(original);
@@ -50,7 +88,8 @@ class sargeKeypadBase extends SqRootScript
     {
         local useString = Data.GetObjString(self, "huduse");
 		local period = useString.find(".");
-		useString = useString.slice(0, period);
+        if (period)
+    		useString = useString.slice(0, period);
 
         SetProperty("HUDUse", ": \"" + useString + ": " + format("%05d", original) + "\"");
     }
@@ -97,34 +136,60 @@ class sargeKeypadBase extends SqRootScript
 // Setup keypads to be unopenable until the right quest var is set
 class sargeRandomKeypad extends sargeKeypadBase
 {
-	function OnBeginScript()
+	QB = null;
+
+	function MapLoaded()
 	{
-		base.OnBeginScript();
+		QB = GetData("QB");
+		
+		if (QB)
+		{
+            PrintDebug("Subscribing to QB " + QB);
+			Quest.SubscribeMsg(self, QB, eQuestDataType.kQuestDataCampaign);
+			OnQuestChange();
+		}
+        else
+        {
+            PrintDebug("No QB!");
+        }
+
+	}
+
+	function Init()
+	{
+		base.Init();
+		
+        local based;
 		if (HasProperty("QBName"))
 		{
-			Quest.SubscribeMsg(self, GetProperty("QBName"), eQuestDataType.kQuestDataCampaign);
-			OnQuestChange();
+			QB = GetProperty("QBName");
+            based = "based on QBName Property";
 		}
 		else
 		{
-			local qb = GetQB();
-			if (qb)
-			{
-				Property.SetSimple(this,"QBName",qb);
-			}
+			QB = GetQB();
+            based = "based on GetQB";
+		}
+		
+		if (QB)
+		{
+			PrintDebug("Setting QB to " + QB + " " + based);
+			SetData("QB",QB);
 		}
 	}
 
 	//blatantly stolen from ZylonBane
-	function getQB()
+	function GetQB()
 	{
-		local deck, note, qb;
-		local code = format("%05d", GetProperty("KeypadCode"));
-		for (deck = 1; deck <= 9; deck++)
+        if (!GetData("OriginalCode"))
+            return;
+
+		local code = format("%05d", GetData("OriginalCode"));
+		for (local deck = 1; deck <= 9; deck++)
 		{
-			for (n = 1; note <= 32; n++)
+			for (local note = 1; note <= 32; note++)
 			{
-				qb = "Note_" + deck + "_" + note;
+				local qb = "Note_" + deck + "_" + note;
 				if (Data.GetString("notes", qb).find(code))
 				{
 					return qb;
@@ -136,15 +201,15 @@ class sargeRandomKeypad extends sargeKeypadBase
 	
 	function OnQuestChange()
 	{
-		if (Quest.Get(GetProperty("QBName")) > 0)
+		if (Quest.Get(QB) > 0)
 			Unlock();
 	}
 	
 	function OnEndScript()
 	{
-		if (HasProperty("QBName"))
+		if (QB)
 		{
-			Quest.UnsubscribeMsg(self, GetProperty("QBName"));
+			Quest.UnsubscribeMsg(self, QB);
 		}
 	}
 
@@ -162,9 +227,8 @@ class sargeTransmitterKeypad extends sargeKeypadBase
 		print ("required quest updates:" + requiredQuestupdates);
 	}
 	
-	function OnBeginScript()
+	function MapLoaded()
 	{
-		base.OnBeginScript();
 		Subscribe("QB1Name");
 		Subscribe("QB2Name");
 		Subscribe("QB3Name");

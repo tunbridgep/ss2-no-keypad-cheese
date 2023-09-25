@@ -10,8 +10,6 @@
 	"Don't Inherit" true
 }
 
-+ObjProp 1181 "QBName" = "Note_1_8"
-
 //-------------------------------------------
 // Auxillary Storage 5 - Code 34760 - Given by Marie Delacroix in Fluidics Control
 //-------------------------------------------
@@ -23,14 +21,6 @@
 	"Script 3" "sargeRandomKeypad"
 	"Don't Inherit" true
 }
-
-+ObjProp 1726 "QBName" = "Note_1_9"
-
-//-------------------------------------------
-// Utility Storage 4 - Code 59004 - Given by Shodan in Email
-//-------------------------------------------
-
-+ObjProp 1372 "QBName" = "Note_1_11"
 
 //-------------------------------------------
 // Engine Core - Code 94834 - Given by Shodan in Email
@@ -44,5 +34,3 @@
 	"Don't Inherit" true
 }
 
-
-+ObjProp 910 "QBName" = "Note_1_12"

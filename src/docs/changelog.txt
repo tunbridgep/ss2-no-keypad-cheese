@@ -1,0 +1,14 @@
+1.2
+
+- Added a secondary method for keypads to enable themselves, based on finding their own keypad code within logs
+	- This should add potential automatic support for FMs, but only if they don't do custom things with Keypad scripts.
+	- Many FMs such as Ponterbee will still require custom patches to work fully.
+	- Now, instead of a message in the top message box, the HUD String of the keypad will be updated.
+
+1.1
+
+- Fixed issue where you could get the medsci2 armoury code early, as it was tied to the wrong note.
+
+1.0
+
+- Initial Release
