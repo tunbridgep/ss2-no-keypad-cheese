@@ -1,9 +1,3 @@
-//-------------------------------------------
-// Maintenance Shaft - Code 12451 - Given by Doctor Watts
-//-------------------------------------------
-
-+ObjProp 809 "QBName" = "wattsy"
-
 //Make the training wheels keypad not change the code since it has no assicated note
 
 +ObjProp 1681 "DesignNoteSS" = "noChangeCode=1"

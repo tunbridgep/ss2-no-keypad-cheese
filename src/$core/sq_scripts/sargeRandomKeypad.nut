@@ -12,7 +12,7 @@ class sargeKeypadBase extends SqRootScript
 
 	static function PrintDebug(msg)
 	{
-        if (getParam("debug",0))
+        //if (getParam("debug",0))
         {
     		print ("[" + self + "] " + GetObjectName(self) + "> " + msg);
 		    ShockGame.AddText("[" + self + "] " + GetObjectName(self) + "> " + msg, null);
