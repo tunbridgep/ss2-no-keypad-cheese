@@ -1,3 +1,7 @@
+1.3
+
+- SCP5 Bugfixes
+
 1.2
 
 - Added a secondary method for keypads to enable themselves, based on finding their own keypad code within logs
