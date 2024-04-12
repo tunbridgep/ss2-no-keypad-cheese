@@ -10,11 +10,3 @@
 	"Critical Fail %" 10
 	"Cost" 3.00
 }
-
-//Remove KeypadUnhackable Script
-//TODO: Remove with SCP 5
-+ObjProp 1148 "Scripts"
-{
-	"Script 0" "Keypad"
-	"Don't Inherit" true
-}
