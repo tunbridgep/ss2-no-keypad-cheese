@@ -12,7 +12,7 @@ class sargeKeypadBase extends SqRootScript
 
 	static function PrintDebug(msg)
 	{
-        //if (getParam("debug",0))
+        if (getParam("debug",0))
         {
     		print ("[" + self + "] " + GetObjectName(self) + "> " + msg);
 		    ShockGame.AddText("[" + self + "] " + GetObjectName(self) + "> " + msg, null);
@@ -49,7 +49,6 @@ class sargeKeypadBase extends SqRootScript
         if (getParam("noChangeCode",0))
         {
 		    local code = GetProperty("KeypadCode");
-		    SetData("ShowCode", TRUE);
             UpdateHUDString(code);
             PrintDebug("noChangeCode - Aborting!");
         }
@@ -65,7 +64,6 @@ class sargeKeypadBase extends SqRootScript
 
 		SetData("OriginalCode",code);
 		SetProperty("KeypadCode", code + 100000);
-		SetData("ShowCode", FALSE);
 		SetData("Locked", TRUE);
 		PrintDebug("Changed code for keypad to " + (code + 100000));
 	}
@@ -80,13 +78,17 @@ class sargeKeypadBase extends SqRootScript
         local original = GetData("OriginalCode")
         PrintDebug("Resetting code to " + original);
         SetProperty("KeypadCode", original);
-        SetData("ShowCode", TRUE);
+        SetData("Locked", FALSE);
         UpdateHUDString(original);
 	}
 
     function UpdateHUDString(original)
     {
         local useString = Data.GetObjString(self, "huduse");
+
+        if (useString == "")
+            return;
+
 		local period = useString.find(".");
         if (period)
     		useString = useString.slice(0, period);
@@ -94,21 +96,12 @@ class sargeKeypadBase extends SqRootScript
         SetProperty("HUDUse", ": \"" + useString + ": " + format("%05d", original) + "\"");
     }
 	
-	//Stop us from displaying the "Code: blahblah" messages when frobbing on opened keypads
-	function OnKeypadDone()
-	{
-		SetData("ShowCode", FALSE);
-		SetData("Locked", FALSE);
-	}
-	
 	function OnNetOpened() {
-		SetData("ShowCode", FALSE);
-		SetData("Locked", FALSE);
+        Unlock();
 	}
 
 	function OnHackSuccess() {
-		SetData("ShowCode", FALSE);
-		SetData("Locked", FALSE);
+        Unlock();
 	}
 	
 	function OnReset() {
@@ -116,19 +109,6 @@ class sargeKeypadBase extends SqRootScript
 		OnQuestChange();
 	}
 	
-	//If we know the code, tell us what it is
-	//This is similar to how modern games like Prey tell you the code when using a keypad
-	//once you have found it in the world
-    /*
-	function OnFrobWorldEnd()
-	{
-		if (!GetData("ShowCode"))
-			return;	
-	
-		local code = GetProperty("KeypadCode");
-		ShockGame.AddText("Code: " + code, null);
-	}
-    */
 }
 
 
@@ -224,65 +204,72 @@ class sargeTransmitterKeypad extends sargeKeypadBase
 		base.Init();
 		local requiredQuestupdates = getParam("RequiredUpdates",0);
 		SetData("RequiredQuestUpdates",requiredQuestupdates);
-		print ("required quest updates:" + requiredQuestupdates);
+		PrintDebug("Transmitter: Required quest updates: " + requiredQuestupdates);
 	}
 	
 	function MapLoaded()
 	{
-		Subscribe("QB1Name");
-		Subscribe("QB2Name");
-		Subscribe("QB3Name");
-		Subscribe("QB4Name");
+		Subscribe();
 		OnQuestChange();
 	}
 	
 	function OnEndScript()
 	{
-		Unsubscribe("QB1Name");
-		Unsubscribe("QB2Name");
-		Unsubscribe("QB3Name");
-		Unsubscribe("QB4Name");
+		Unsubscribe();
 	}
 	
-	function Subscribe(parameter)
+	function Subscribe()
 	{
-		local param_value = getParam(parameter,0);
-		if (param_value)
+		local param_pre = getParam("QBPrefix","");
+		local param_start = getParam("QBStart",0);
+		local param_num = getParam("QBNum",0);
+		if (param_pre != "")
 		{
-			print ("Subscribing to " + parameter + ": " + param_value);
-			Quest.SubscribeMsg(self, param_value, eQuestDataType.kQuestDataCampaign);
+            for (local i = param_start;i <= param_start + param_num;i++)
+            {
+                local param = param_pre + i;
+                PrintDebug("Subscribing to " + param);
+                Quest.SubscribeMsg(self, param, eQuestDataType.kQuestDataCampaign);
+            }
 		}
 	}
 	
-	function Unsubscribe(parameter)
+	function Unsubscribe()
 	{
-		local param_value = getParam(parameter,0);
-		if (param_value)
-		{
-			print ("Unsubscribing from " + parameter + ": " + param_value);
-			Quest.UnsubscribeMsg(self, param_value);
+		local param_pre = getParam("QBPrefix","");
+		local param_start = getParam("QBStart",0);
+		local param_num = getParam("QBNum",0);
+        for (local i = param_start;i <= param_start + param_num;i++)
+        {
+            local param = param_pre + i;
+            PrintDebug("Unsubscribing from " + param);
+            Quest.UnsubscribeMsg(self, param);
 		}
 	}
 	
 	function OnQuestChange()
 	{
-	
-		local first = Quest.Get(getParam("QB1Name",0));
-		local second = Quest.Get(getParam("QB2Name",0));
-		local third = Quest.Get(getParam("QB3Name",0));
-		local fourth = Quest.Get(getParam("QB4Name",0));
-	
-		local count = first + second + third + fourth;
+		local count = 0;
+        local param_pre = getParam("QBPrefix","");
+		local param_start = getParam("QBStart",0);
+		local param_num = getParam("QBNum",0);
 		local required = GetData("RequiredQuestUpdates");
+
+        for (local i = param_start;i <= param_start + param_num;i++)
+        {
+            local param = param_pre + i;
+            local value = Quest.Get(param);
+            count += value;
+        }
 		
 		if (count >= required)
 		{
 			Unlock();
-			print ("Transmitter Unlocked");
+			PrintDebug("Transmitter Unlocked");
 		}
 		else
 		{
-			print ("remaining quest updates: " + (required - count));
+			PrintDebug("remaining quest updates: " + (required - count));
 		}
 	}	
 }
