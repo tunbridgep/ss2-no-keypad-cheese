@@ -1,3 +1,4 @@
-//Make the training wheels keypad not change the code since it has no assicated note
+//Make the training wheels keypad not change the code so that we can skip it
+//during subsequent playthroughs. Delaying the player for no reason sucks.
 
-+ObjProp 1681 "DesignNoteSS" = "noChangeCode=1"
++ObjProp 1681 "DesignNoteSS" = "noChangeCode=1;UpdateHUDString=0"

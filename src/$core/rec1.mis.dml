@@ -6,4 +6,4 @@
 {
 	"Script 1" "sargeTransmitterKeypad"
 }
-+ObjProp 1605 "DesignNoteSS" = "QBPrefix="Note_5_"; QBStart=10; QBNum=15;RequiredUpdates=4"
++ObjProp 1605 "DesignNoteSS" = "QBPrefix="Note_5_"; QBStart=10; QBNum=15;RequiredUpdates=4;UpdateHUDString=0"

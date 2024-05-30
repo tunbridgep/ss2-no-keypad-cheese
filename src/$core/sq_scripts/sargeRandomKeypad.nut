@@ -84,7 +84,11 @@ class sargeKeypadBase extends SqRootScript
 
     function UpdateHUDString(original)
     {
+		local updateHUD = getParam("UpdateHUDString",1);
         local useString = Data.GetObjString(self, "huduse");
+
+        if (updateHUD == 0)
+            return;
 
         if (useString == "")
             return;
